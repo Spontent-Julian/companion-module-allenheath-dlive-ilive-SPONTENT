@@ -159,6 +159,22 @@ class instance extends instance_skel {
 					buffers: [Buffer.from([0xf0, 0, 2, 0, 0x4b, 0, 0x4a, 0x10, 0xe7, 0, 1, opt.on ? 1 : 0, 0xf7])],
 				}
 				break
+			case 'input_to_aux': {
+				const inputCh = parseInt(opt.inputChannel) - 1
+				const auxCh = parseInt(opt.auxMix) - 1
+				const val = opt.state === 'on' ? 0x7F : 0x00
+
+				cmd.buffers = [
+					Buffer.from([
+					0xf0, 0x00, 0x00, 0x1a,
+					0x50, 0x10, 0x01, 0x00,
+					0x0e, inputCh, 0x02, auxCh, val,
+					0xf7
+						])
+					]
+					break
+				}
+
 
 			case 'vsc':
 				cmd = {
